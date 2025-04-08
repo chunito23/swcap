@@ -1,0 +1,56 @@
+<!-- view/ProductDetail.view.xml -->
+<mvc:View
+    controllerName="starwarsfront.controller.ProductDetail"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form">
+    
+    <Page title="{product>name}" showNavButton="true" navButtonPress="onNavBack">
+        <l:Grid defaultSpan="L6 M6 S12">
+            <l:content>
+                <!-- Imagen del producto -->
+                <FlexBox height="300px" alignItems="Center" justifyContent="Center">
+                    <Image src="{product>image}" width="100%" />
+                </FlexBox>
+                
+                <!-- Detalles del producto -->
+                <f:SimpleForm editable="false" layout="ResponsiveGridLayout">
+                    <f:content>
+                        <Label text="Descripción" />
+                        <Text text="{product>description}" />
+                        
+                        <Label text="Precio" />
+                        <ObjectNumber number="{product>price}" unit="{product>currency}" />
+                        
+                        <Label text="Disponibilidad" />
+                        <ObjectStatus 
+                            text="En stock: {product>stock}"
+                            state="{= ${product>stock} > 10 ? 'Success' : ${product>stock} > 0 ? 'Warning' : 'Error' }" />
+                        
+                        <Label text="Variantes" />
+                        <ComboBox id="variantsComboBox"
+                                  items="{variants>/}"
+                                  selectionChange="onVariantSelect">
+                            <core:Item key="{variants>variantId}" text="{variants>color} - {variants>price} {product>currency}" />
+                        </ComboBox>
+                        
+                        <Label text="Cantidad" />
+                        <StepInput id="quantityInput"
+                                  value="1"
+                                  min="1"
+                                  max="{product>stock}"
+                                  width="100%" />
+                    </f:content>
+                </f:SimpleForm>
+            </l:content>
+        </l:Grid>
+        
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Button text="Añadir al Carrito" type="Emphasized" press="onAddToCart" />
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

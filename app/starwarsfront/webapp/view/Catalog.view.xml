@@ -1,0 +1,77 @@
+<mvc:View
+    controllerName="starwarsfront.controller.Catalog"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core">
+
+    <Page title="Catálogo Star Wars">
+        <SplitApp id="splitApp">
+
+            <!-- Panel izquierdo con Categorías -->
+            <masterPages>
+                <Page title="Categorías">
+                    <List
+                        id="categoriesList"
+                        items="{categories>/}"
+                        mode="SingleSelectMaster"
+                        selectionChange="onCategorySelect">
+                        <items>
+                            <StandardListItem title="{categories>name}" type="Active" />
+                        </items>
+                    </List>
+                </Page>
+            </masterPages>
+
+            <!-- Panel derecho con productos en formato tarjeta -->
+            <detailPages>
+                <Page id="productsPage" title="Productos">
+                    <ScrollContainer height="100%" vertical="true">
+                        <FlexBox
+                            wrap="Wrap"
+                            direction="Row"
+                            alignItems="Start"
+                            justifyContent="Start"
+                            items="{allProducts>/}">
+                            <items>
+                                <VBox
+                                    width="250px"
+                                    class="sapUiSmallMargin"
+                                    renderType="Bare"
+                   
+                                    busyIndicatorDelay="0"
+                                    busy="{= ${allProducts>stock} === null }"
+          
+                                    >
+                                    <Panel
+                                        headerText="{allProducts>name}"
+                                        expandable="false"
+                                        class="sapUiResponsiveMargin">
+                                        <VBox class="sapUiSmallMargin">
+                                            <Image
+                                                src="{allProducts>image}"
+                                                width="100%"
+                                                height="150px"
+                                                press="onProductPress"
+                                                densityAware="false"
+                                                decorative="false"
+                                            />
+                                            <Text text="{allProducts>description}" wrapping="true" />
+                                            <HBox alignItems="Center" justifyContent="SpaceBetween">
+                                                <Text text="💰 {allProducts>price} {allProducts>currency}" />
+                                                <ObjectStatus
+                                                    text="Stock: {allProducts>stock}"
+                                                    state="{= ${allProducts>stock} > 10 ? 'Success' : ${allProducts>stock} > 0 ? 'Warning' : 'Error' }"
+                                                />
+                                            </HBox>
+                                        </VBox>
+                                    </Panel>
+                                </VBox>
+                            </items>
+                        </FlexBox>
+                    </ScrollContainer>
+                </Page>
+            </detailPages>
+
+        </SplitApp>
+    </Page>
+</mvc:View>

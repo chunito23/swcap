@@ -1,0 +1,67 @@
+const cds = require('@sap/cds');
+const { v4: uuidv4 } = require('uuid');
+
+module.exports = async function() {
+  const db = await cds.connect.to('db');
+  const { Cart, Products, ProductVariants } = db.entities('com.starwars');
+  
+  const service = await cds.connect.to('CatalogService');
+  
+  // Implementación de las acciones del carrito
+  service.on('addToCart', async (req) => {
+    const { productId, variantId, quantity } = req.data;
+    const userId = req.user.id || 'anonymous';
+    
+    // Verificar stock
+    const variant = await SELECT.from(ProductVariants).where({ variantId: variantId });
+    if (variant.stock < quantity) {
+      req.reject(400, 'No hay suficiente stock disponible');
+      return;
+    }
+    
+    // Añadir al carrito
+    const cartItem = {
+      id: uuidv4(),
+      user: userId,
+      product_ID: productId,
+      variant_ID: variantId,
+      quantity: quantity,
+      createdAt: new Date()
+    };
+    
+    await INSERT.into(Cart).entries(cartItem);
+    return cartItem;
+  });
+  
+  service.on('updateCartItem', async (req) => {
+    const { cartItemId, quantity } = req.data;
+    const userId = req.user.id || 'anonymous';
+    
+    await UPDATE(Cart)
+      .set({ quantity: quantity })
+      .where({ id: cartItemId, user: userId });
+      
+    return await SELECT.from(Cart).where({ id: cartItemId });
+  });
+  
+  service.on('removeFromCart', async (req) => {
+    const { cartItemId } = req.data;
+    const userId = req.user.id || 'anonymous';
+    
+    await DELETE.from(Cart).where({ id: cartItemId, user: userId });
+    return true;
+  });
+  
+  service.on('getCart', async (req) => {
+    const userId = req.user.id || 'anonymous';
+    return await SELECT.from(Cart)
+      .where({ user: userId })
+      .orderBy('createdAt desc');
+  });
+  
+  // Filtro de seguridad para el carrito
+  service.before('READ', 'Cart', (req) => {
+    const userId = req.user.id || 'anonymous';
+    req.query.where('user =', userId);
+  });
+}

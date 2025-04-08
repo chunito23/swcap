@@ -1,0 +1,57 @@
+<!-- view/Cart.view.xml -->
+<mvc:View
+    controllerName="starwarsfront.controller.Cart"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc">
+    
+    <Page title="Carrito de Compras" showNavButton="true" navButtonPress="onNavBack">
+        <Table id="cartTable"
+               items="{cart>/}"
+               mode="Delete"
+               delete="onDeleteCartItem">
+            <columns>
+                <Column>
+                    <Text text="Producto" />
+                </Column>
+                <Column minScreenWidth="Tablet" demandPopin="true">
+                    <Text text="Variante" />
+                </Column>
+                <Column hAlign="Right">
+                    <Text text="Precio" />
+                </Column>
+                <Column hAlign="Center">
+                    <Text text="Cantidad" />
+                </Column>
+                <Column hAlign="Right">
+                    <Text text="Total" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <ObjectIdentifier title="{cart>product/name}" />
+                        <Text text="{cart>variant/color}" />
+                        <ObjectNumber number="{cart>variant/price}" unit="{cart>product/currency}" />
+                        <StepInput
+                            value="{cart>quantity}"
+                            min="1"
+                            max="{cart>variant/stock}"
+                            change="onQuantityChange"
+                            width="100%" />
+                        <ObjectNumber 
+                            number="{= ${cart>quantity} * ${cart>variant/price} }" 
+                            unit="{cart>product/currency}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+        
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Text text="Total del carrito: {cart>/total} USD" />
+                <Button text="Finalizar Compra" type="Emphasized" press="onCheckout" />
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>
