@@ -1,0 +1,14 @@
+<mvc:View xmlns:core="sap.ui.core"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  controllerName="starwarsfront.controller.NotFound">
+
+  <Page title="Página no encontrada" showNavButton="true" navButtonPress="onNavBack">
+    <VBox class="sapUiSmallMargin sapUiCenterContent">
+      <core:Icon src="sap-icon://error" size="5rem" color="red" />
+      <Text text="Lo sentimos, la página que estás buscando no existe." class="sapUiMediumMarginTop" />
+      <Button text="Volver al inicio" press="onNavBack" class="sapUiMediumMarginTop" />
+    </VBox>
+  </Page>
+
+</mvc:View>

@@ -103,6 +103,11 @@
           "pattern": "catalog",
           "name": "catalog",
           "target": "catalog"
+        },
+        {
+          "pattern": "ProductDetail/{productId}",
+          "name": "ProductDetail",
+          "target": "ProductDetail"
         }
       ],
       "targets": {
@@ -113,6 +118,10 @@
         "catalog": {
           "viewName": "Catalog",
           "viewLevel": 1
+        },
+        "ProductDetail": {
+          "viewName": "ProductDetail",
+          "viewLevel": 2
         }
       }
     },
