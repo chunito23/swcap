@@ -3,5 +3,5 @@ sap.ui.define([
 ],(controller) => {
     "use strict"
 
-    return controller.extend("starwarsfront.controller.BuyPage")
+    return controller.extend("starwarsfront.controller.BuyPage",{})
 })

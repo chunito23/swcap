@@ -1,7 +1,10 @@
-<mvc:View controllerName="starwarsfront.controller.App"
-    displayBlock="true"
+<mvc:View
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <App id="app">
-    </App>
+    xmlns="sap.m"
+    controllerName="starwarsfront.controller.App"
+>
+    <SplitApp
+        id="splitApp"
+        
+    />
 </mvc:View>

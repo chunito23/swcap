@@ -82,46 +82,67 @@
     "routing": {
       "config": {
         "routerClass": "sap.m.routing.Router",
-        "controlAggregation": "pages",
-        "controlId": "app",
-        "transition": "slide",
-        "type": "View",
         "viewType": "XML",
-        "path": "starwarsfront.view",
-        "async": true,
-        "viewPath": "starwarsfront.view"
+        "viewPath": "starwarsfront.view",
+        "controlId": "splitApp",
+        "controlAggregation": "detailPages",
+        "async": true
       },
       "routes": [
         {
-          "name": "RouteMain",
-          "pattern": ":?query:",
+          "pattern": "",
+          "name": "start",
           "target": [
-            "TargetMain"
+            "master",
+            "detail"
           ]
         },
         {
-          "pattern": "catalog",
-          "name": "catalog",
-          "target": "catalog"
+          "pattern": "category/{categoryId}",
+          "name": "category",
+          "target": [
+            "master",
+            "detail"
+          ]
         },
         {
-          "pattern": "ProductDetail/{productId}",
-          "name": "ProductDetail",
-          "target": "ProductDetail"
+          "pattern": "category/{categoryId}/subcategory/{subcategoryId}",
+          "name": "subcategory",
+          "target": [
+            "master",
+            "detail"
+          ]
+        },
+        {
+          "pattern": "category/{categoryId}/subcategory/{subcategoryId}/product/{productId}",
+          "name": "productDetail",
+          "target": [
+            "master",
+            "productDetail"
+          ]
+        },
+        {
+          "pattern": "history",
+          "name": "history",
+          "target": [
+            "master",
+            "history"
+          ]
         }
       ],
       "targets": {
-        "TargetMain": {
-          "id": "Main",
-          "name": "Main"
+        "master": {
+          "viewName": "Master",
+          "controlAggregation": "masterPages"
         },
-        "catalog": {
-          "viewName": "Catalog",
-          "viewLevel": 1
+        "detail": {
+          "viewName": "Detail"
         },
-        "ProductDetail": {
-          "viewName": "ProductDetail",
-          "viewLevel": 2
+        "productDetail": {
+          "viewName": "ProductDetail"
+        },
+        "history": {
+          "viewName": "History"
         }
       }
     },

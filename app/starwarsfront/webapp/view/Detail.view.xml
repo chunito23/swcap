@@ -1,0 +1,18 @@
+<mvc:View
+  controllerName="starwarsfront.controller.Detail"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m">
+  <Page title="Productos">
+    <SearchField 
+    search=".onSearch"></SearchField>
+    <List id="productList" items="{
+      path: '/Products',
+      parameters: {
+        expand: 'details'
+      }
+    }"
+    itemPress=".onProductPress">
+      <StandardListItem title="{name}" description="{description}" />
+    </List>
+  </Page>
+</mvc:View>
